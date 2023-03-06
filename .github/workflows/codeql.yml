@@ -51,9 +51,11 @@ jobs:
 
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
-    - name: install conan
-      run: |
-        pip3 install conan
+    - name: Install Intel® oneAPI Threading Building Blocks (oneTBB)
+      run: $CONDA/bin/conda install -c intel tbb-devel
+    
+    - name: Install Intel® oneAPI DPC++/C++ Compiler
+      run: $CONDA/bin/conda install -c intel dpcpp_linux-64
         
     - name: Install Intel® oneAPI DPC++/C++ Compiler
       run: $CONDA/bin/conda install -c intel dpcpp_linux-64
