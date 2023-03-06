@@ -58,7 +58,7 @@ jobs:
     - name: Build
       run: |
         mkdir build && cd build
-        cmake .. .
+        cmake --build ..
         ctest
 
     # ℹ️ Command-line programs to run using the OS shell.
