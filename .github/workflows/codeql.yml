@@ -54,6 +54,9 @@ jobs:
     - name: install conan
       run: |
         pip3 install conan
+        
+    - name: Install Intel® oneAPI DPC++/C++ Compiler
+      run: $CONDA/bin/conda install -c intel dpcpp_linux-64
       
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
@@ -61,8 +64,10 @@ jobs:
     - name: Build
       run: |
         mkdir build && cd build
-        conan install .. --build missing --profile:build=inteldpcpp_lnx -o build_shared_libs=False
-        conan build ..
+        lscpu
+        cmake -DCMAKE_CXX_COMPILER=dpcpp ..
+        make VERBOSE=1 -j2 sycl_iterator.pass
+        ctest --timeout 360 --output-on-failure -R sycl_iterator.pass
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
