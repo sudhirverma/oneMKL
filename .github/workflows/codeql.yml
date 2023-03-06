@@ -71,8 +71,7 @@ jobs:
         echo "::warning::dpcpp backend is set. Compile and run only sycl_iterator.pass"
         mkdir build && cd build
         lscpu
-        cmake -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=release \
-          -DCMAKE_CXX_COMPILER=dpcpp -DONEDPL_BACKEND=dpcpp -DONEDPL_DEVICE_TYPE=CPU ..
+        cmake -DCMAKE_CXX_COMPILER=dpcpp ..
         make VERBOSE=1 -j2 ${make_targets}
         ctest --timeout 360 --output-on-failure ${ctest_flags}
 
