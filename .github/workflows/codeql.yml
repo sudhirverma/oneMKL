@@ -65,7 +65,7 @@ jobs:
       run: |
         mkdir build && cd build
         lscpu
-        cmake ..
+        cmake -DCMAKE_CXX_COMPILER=dpcpp ..
         make VERBOSE=1 -j2 sycl_iterator.pass
         ctest --timeout 360 --output-on-failure -R sycl_iterator.pass
 
