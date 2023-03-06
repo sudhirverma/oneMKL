@@ -61,7 +61,7 @@ jobs:
     - name: Build
       run: |
         mkdir build && cd build
-        conan install .. --build missing --profile build inteldpcpp_lnx -o build_shared_libs=False
+        conan install .. --build missing --profile build -o build_shared_libs=False
         conan build ..
 
     # ℹ️ Command-line programs to run using the OS shell.
