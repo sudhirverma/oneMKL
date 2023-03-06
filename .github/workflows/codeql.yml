@@ -65,8 +65,7 @@ jobs:
       run: |
         mkdir build && cd build
         lscpu
-        cmake -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=release \
-          -DCMAKE_CXX_COMPILER=dpcpp -DONEDPL_BACKEND=dpcpp -DONEDPL_DEVICE_TYPE=CPU ..
+        cmake ..
         make VERBOSE=1 -j2 sycl_iterator.pass
         ctest --timeout 360 --output-on-failure -R sycl_iterator.pass
 
