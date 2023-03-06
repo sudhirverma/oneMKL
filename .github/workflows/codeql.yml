@@ -63,11 +63,21 @@ jobs:
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Build
       run: |
+        set -x
+        source $CONDA/bin/activate
+        export PATH=$CONDA/lib:$PATH
+        export CPATH=$CONDA/include:$CPATH
+        export OCL_ICD_FILENAMES=$CONDA/lib/libintelocl.so
+        echo "::warning::Compiler: $(dpcpp --version)"
+        make_targets="sycl_iterator.pass"
+        ctest_flags="-R sycl_iterator.pass"
+        echo "::warning::dpcpp backend is set. Compile and run only sycl_iterator.pass"
         mkdir build && cd build
         lscpu
-        cmake -DCMAKE_CXX_COMPILER=dpcpp ..
-        make VERBOSE=1 -j2 sycl_iterator.pass
-        ctest --timeout 360 --output-on-failure -R sycl_iterator.pass
+        cmake -DCMAKE_CXX_STANDARD=17 -DCMAKE_BUILD_TYPE=release \
+          -DCMAKE_CXX_COMPILER=dpcpp -DONEDPL_BACKEND=dpcpp -DONEDPL_DEVICE_TYPE=CPU ..
+        make VERBOSE=1 -j2 ${make_targets}
+        ctest --timeout 360 --output-on-failure ${ctest_flags}
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
